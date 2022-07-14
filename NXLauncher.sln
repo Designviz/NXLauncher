@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NXLauncher", "NXLauncher.csproj", "{DCFC0AD5-4DDB-4EA6-A5DB-E684874C4350}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCFC0AD5-4DDB-4EA6-A5DB-E684874C4350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCFC0AD5-4DDB-4EA6-A5DB-E684874C4350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCFC0AD5-4DDB-4EA6-A5DB-E684874C4350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCFC0AD5-4DDB-4EA6-A5DB-E684874C4350}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAB40295-AFEF-45A9-A975-FAB917C29473}
+	EndGlobalSection
+EndGlobal
