@@ -92,6 +92,7 @@ namespace NXLauncher
             Description = "";
             Generated = true;
             ENVFile = "";
+            Icon = "";
         }
         public NXConfigProfile(string n)
         {
@@ -100,12 +101,14 @@ namespace NXLauncher
             Description = "";
             Generated = true;
             ENVFile = "";
+            Icon = "";
         }
         public string Name { get; set; }
         public string File { get; set; }
         public string Description { get; set; }
         public bool Generated { get; set; }
         public string ENVFile { get; set; }
+        public string Icon { get; set; }
         public List<NXParam> paramList = new List<NXParam>();
     }
 
