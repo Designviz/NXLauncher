@@ -1,0 +1,74 @@
+﻿<Window x:Class="NXLauncher.ProfileConfig"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NXLauncher"
+        mc:Ignorable="d"
+        Title="NX Profile Config" Height="625" Width="800" ResizeMode="NoResize" Icon="/resources/ug_logo_50x50.tif" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+    <Window.Effect>
+        <DropShadowEffect/>
+    </Window.Effect>
+    <Grid Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="97*"/>
+            <RowDefinition Height="512*"/>
+        </Grid.RowDefinitions>
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF454545"/>
+
+        <Label Content="NX Profile Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" FontSize="18" Width="204" Foreground="White"/>
+
+        <Label Content="Profile Name" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Height="25" FontSize="14" Width="90" Foreground="White"/>
+        <TextBox x:Name="ProfileName_TextBox" HorizontalAlignment="Left" Margin="120,50,0,0" TextWrapping="Wrap" Text=".." VerticalAlignment="Top" Width="280" Height="30" FontSize="14" VerticalContentAlignment="Center" TextChanged="ProfileName_TextBox_TextChanged"/>
+        <Label Content="Configure Environment" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="18" FontWeight="Normal" Height="34" Width="194"/>
+        <Rectangle Height="2" Margin="10,5,10,0" Grid.Row="1" VerticalAlignment="Top" Fill="#FFD4D4D4"/>
+        <Rectangle Height="2" Margin="10,50,10,0" Grid.Row="1" VerticalAlignment="Top" Fill="#FFD4D4D4"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,60,0,0" Grid.IsSharedSizeScope="True" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <StackPanel Grid.IsSharedSizeScope="True">
+                <Label Content="Environment File" FontSize="16" Margin="10,5,10,5"/>
+                <RadioButton x:Name="Generated_Radio" Content="Generated" Margin="10,5,10,5" GroupName="ENVIRONMENT" Checked="Generated_Radio_Checked" IsChecked="True"/>
+                <RadioButton x:Name="UseExisting_Radio" Content="Use Existing" Margin="10,5,10,5" GroupName="ENVIRONMENT" Checked="UseExisting_Radio_Checked"/>
+                <StackPanel x:Name="UGIIENVFile_Panel" Margin="10,5,10,5" Background="WhiteSmoke" IsEnabled="False">
+                    <Label Content="Existing ugii__env.dat Location" FontSize="14"/>
+                    <StackPanel x:Name="ExistingFile_Panel" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock TextWrapping="Wrap" Text="Path:" Width="60" Margin="10,10,5,10" Height="24"/>
+                        <TextBox x:Name="UGIIENVPath_TextBox" TextWrapping="Wrap" Text=".." Width="200" Margin="5,10,5,10" VerticalContentAlignment="Top" TextChanged="UGIIENVPath_TextBox_TextChanged"/>
+                        <Button x:Name="UGIIENVBrowse_Button" Content="Browse" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="UGIIENVBrowse_Button_Click"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="EnvironmentFolder_Panel" Background="WhiteSmoke" Margin="10,5,10,5">
+                    <Label Content="Custom Environment Folder" FontSize="14"/>
+                    <StackPanel x:Name="ExistingFile_Panel1" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock TextWrapping="Wrap" Text="Path:" Width="60" Margin="10,10,5,10" Height="24"/>
+                        <TextBox x:Name="EnvironmentFolder_TextBox" TextWrapping="Wrap" Text=".." Width="200" Margin="5,10,5,10" VerticalContentAlignment="Top"/>
+                        <Button x:Name="EnvironmentFolderBrowse_Button" Content="Browse" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="EnvironmentFolderBrowse_Button_Click"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="EnvironmentFolder_Utilities" Margin="10,5,10,5">
+                    <Label Content="Environment Folder Utilities" FontSize="14"/>
+                    <StackPanel x:Name="ExistingFile_Panel2" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock TextWrapping="Wrap" Text="Copy Default Libraries:" Margin="10,10,75,10" Height="24" Width="200"/>
+                        <Button Content="Do It!" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="Button_Click"/>
+                    </StackPanel>
+                    <StackPanel x:Name="ExistingFile_Panel2_Copy" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock TextWrapping="Wrap" Text="Create Default Folders:" Margin="10,10,75,10" Height="24" Width="200"/>
+                        <Button Content="Do It!" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="Button_Click_1"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <Rectangle Width="2" Fill="Gainsboro" Margin="0,0,10,0"/>
+            <StackPanel x:Name="GenerateEnvParams_Panel" Grid.IsSharedSizeScope="True" Margin="0,0,10,0">
+                <Label Content="Generated Environment File" FontSize="16"/>
+                <Label Content="Custom Parameters List"/>
+                <ListBox x:Name="NXParams_List" d:ItemsSource="{Binding}" VerticalContentAlignment="Center" Width="335" Margin="5,10,0,10" Height="320" SelectionChanged="NXParams_List_SelectionChanged" ItemTemplate="{DynamicResource ParamsListBoxItemTemplate}"/>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10" MinHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="AddParam_Button" Content="Add" Style="{DynamicResource NXButtonStyle}" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" HorizontalAlignment="Center" Margin="0,0,10,0" Click="AddParam_Button_Click"/>
+                    <Button x:Name="RemoveParam_Button" Content="Remove" Style="{DynamicResource NXButtonStyle}" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" HorizontalAlignment="Right" Margin="10,0,0,0" Click="RemoveParam_Button_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <Button x:Name="Save_Button" Content="Save" Style="{DynamicResource NXButtonStyle}" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Margin="0,45,164,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="40" Click="Save_Button_Click"/>
+        <Button x:Name="SaveAndClose_Button" Content="Save &amp; Close" Style="{DynamicResource NXButtonStyle}" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Margin="0,45,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="40" Click="SaveAndClose_Button_Click"/>
+
+    </Grid>
+</Window>
