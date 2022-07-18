@@ -71,8 +71,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Left" Height="24" Margin="2,2,2,2" Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Top" Width="250">
-                    <Label x:Name="NX_VersionButton" Background="{x:Null}" Content="{Binding Name}" Foreground="Black" HorizontalContentAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="100"/>
-                    <Label x:Name="NX_VersionButton" Background="{x:Null}" Content="{Binding Value}" Foreground="Black" HorizontalContentAlignment="Right" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="100"/>
+                    <Label x:Name="NX_Name" Background="{x:Null}" Content="{Binding Name}" Foreground="Black" HorizontalContentAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="100"/>
+                    <Label x:Name="NX_Value" Background="{x:Null}" Content="{Binding Value}" Foreground="Black" HorizontalContentAlignment="Right" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="100"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
