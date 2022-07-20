@@ -23,7 +23,7 @@ namespace NXLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
-        public NXInstallatations NXInstalls = new NXInstallatations();
+        public NXInstallatationManager NXInstalls = new NXInstallatationManager();
         public NXInstallation? selectedInstallation = null;
         public NXConfigProfile? selectedProfile = null;
         public bool isDefaultLaunch = true;
@@ -31,7 +31,7 @@ namespace NXLauncher
         public MainWindow()
         {
             InitializeComponent();
-            GetInstalledNXVersions();
+            NXVersions.ItemsSource = NXInstallatationManager.Instance.GetInstalledNXVersions();
             LoadConfigurationProfiles();
         }
 
@@ -43,44 +43,7 @@ namespace NXLauncher
             NXConfigProfileManager.LoadProfiles();
         }
 
-        public void GetInstalledNXVersions()
-        {
-            NXInstalls.Installs = new List<NXInstallation>();
-            string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
-            {
-                foreach (string subkey_name in key.GetSubKeyNames())
-                {
-                    using (RegistryKey subkey = key.OpenSubKey(subkey_name))
-                    {
-                        if (subkey == null)
-                            continue;
 
-                        if (subkey.GetValue("DisplayName") != null)
-                        {
-                            if (subkey.GetValue("DisplayName").ToString().Contains("Siemens NX") && !subkey.GetValue("DisplayName").ToString().Contains("Launcher"))
-                            {
-
-                                NXInstallation nx = new NXInstallation();
-
-                                //List<string> nameKeys = subkey.GetValueNames().ToList();
-                                nx.DisplayName = subkey.GetValue("DisplayName") != null ? subkey.GetValue("DisplayName").ToString() : "NA";
-                                nx.DisplayVersion = subkey.GetValue("DisplayVersion") != null ? subkey.GetValue("DisplayVersion").ToString() : "NA";
-                                nx.DisplayIcon = subkey.GetValue("DisplayIcon") != null ? subkey.GetValue("DisplayIcon").ToString() : "NA";
-                                nx.Directory = subkey.GetValue("DisplayName") != null ? subkey.GetValue("InstallLocation").ToString() : "NA";
-                                NXInstalls.Installs.Add(nx);
-                            }
-                        }
-                    }
-                }
-            }
-            string output = JsonConvert.SerializeObject(NXInstalls);
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            Directory.CreateDirectory(path + "/DesignVisionaries/NXLauncher/data");
-            //File.Create(path+"/DesignVisionaries/NXLauncher/data/NXInstalls.json");
-            File.WriteAllText(path + "/DesignVisionaries/NXLauncher/data/NXInstalls.json", output);
-            NXVersions.ItemsSource = NXInstalls.Installs;
-        }
 
         private void NXVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -13,14 +13,32 @@ namespace NXLauncher
     {
         [NonSerialized]
         public static NXConfigProfileManager Instance = new();
+
         public Dictionary<string, NXConfigProfiles> NXConfigurations = new Dictionary<string, NXConfigProfiles>();
+        public Dictionary<string, NXParams> NXParameters = new Dictionary<string, NXParams>();
 
         public NXConfigProfileManager()
         {
             Instance = this;
         }
 
+        public void LoadParams(string key)
+        {
+            NXParams parameters;
+            try
+            {
+                parameters = NXParameters[key];
+            }catch(Exception e)
+            {
+                //no key for config, create new entry.
+                parameters = new NXParams();
+                NXParameters.Add(key, parameters);
+                
+            }
+            NXConfigProfiles profile = GetConfigurationProfiles(key);
 
+            SaveProfiles();
+        }
         public void AddProfile(string key)
         {
             NXConfigProfiles profile = GetConfigurationProfiles(key);
@@ -110,6 +128,12 @@ namespace NXLauncher
         public string ENVFile { get; set; }
         public string Icon { get; set; }
         public List<NXParam> paramList = new List<NXParam>();
+    }
+
+    [System.Serializable]
+    public class NXParams
+    {
+        public List<NXParam> Params = new List<NXParam>();
     }
 
     [System.Serializable]

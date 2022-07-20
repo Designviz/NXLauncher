@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NXLauncher"
         mc:Ignorable="d"
-        Title="NX Profile Config" Height="625" Width="800" ResizeMode="NoResize" Icon="/resources/ug_logo_50x50.tif" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+        Title="NX Profile Config" Height="640" Width="800" ResizeMode="NoResize" Icon="/resources/ug_logo_50x50.tif" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Window.Effect>
         <DropShadowEffect/>
     </Window.Effect>
