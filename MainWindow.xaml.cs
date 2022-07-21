@@ -138,7 +138,7 @@ namespace NXLauncher
                 configWindow.Close();
                 configWindow = null;
             }
-            configWindow = new ProfileConfig();
+            configWindow = new ProfileConfig(selectedProfile, selectedInstallation);
             configWindow.Show();
         }
 

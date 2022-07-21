@@ -17,7 +17,7 @@
         <StackPanel x:Name="ParamData_Panel" Grid.Column="1" Background="#FF454545">
             <Label Content="Set Parameter Data" Foreground="White" Margin="10,10,10,10" FontSize="16"/>
             <Label Content="Selected Parameter" Foreground="White" FontSize="14" Margin="10,5,10,0"/>
-            <TextBox x:Name="ParamName_Box" TextWrapping="Wrap" Text="TextBox" Margin="10,5,10,5" Height="24" FontSize="14" IsEnabled="False"/>
+            <TextBox x:Name="ParamName_Box" TextWrapping="Wrap" Text=".." Margin="10,5,10,5" Height="24" FontSize="14" IsEnabled="False"/>
             <Label Content="Value Type" Foreground="White" FontSize="14" Margin="10,5,10,5"/>
             <StackPanel Height="100" Margin="10,5,10,5">
                 <RadioButton x:Name="ParamValue_Radio" Content="Value" Foreground="White" BorderBrush="#FF444444" Margin="0,5,5,5" GroupName="ParamType" IsChecked="True" Checked="ParamValue_Radio_Checked"/>
@@ -28,18 +28,18 @@
             <Label Content="Parameter Value" Foreground="White" FontSize="14"/>
             <StackPanel x:Name="V_Types" Margin="10,5,10,5" Height="100">
                 <TextBox x:Name="ParamValue_TextBox" TextWrapping="Wrap" Height="24" FontSize="14" TextChanged="ParamValue_TextBox_TextChanged"/>
-                <StackPanel x:Name="File_VTYPE" Orientation="Horizontal" Visibility="Visible">
-                    <TextBox x:Name="ParamValue_FileBox" TextWrapping="Wrap" Height="24" FontSize="14" Width="193" Margin="0,0,5,0" TextChanged="ParamValue_FileBox_TextChanged"/>
+                <StackPanel x:Name="File_VTYPE" Orientation="Horizontal" Visibility="Visible" IsEnabled="False">
+                    <TextBox x:Name="ParamValue_FileBox" TextWrapping="Wrap" Height="24" FontSize="14" Width="193" Margin="0,0,5,0" TextChanged="ParamValue_FileBox_TextChanged" Visibility="Collapsed"/>
                     <Button x:Name="ParamFile_Browse" Content="Browse" Width="100" Style="{DynamicResource NXButtonStyle}" Click="ParamFile_Browse_Click"/>
                 </StackPanel>
-                <StackPanel x:Name="Folder_VTYPE" Orientation="Horizontal">
+                <StackPanel x:Name="Folder_VTYPE" Orientation="Horizontal" IsEnabled="False" Visibility="Collapsed">
                     <TextBox x:Name="ParamValue_FolderBox" TextWrapping="Wrap" Height="24" FontSize="14" Width="193" Margin="0,0,5,0" TextChanged="ParamValue_FolderBox_TextChanged"/>
                     <Button x:Name="Param_FolderBrowse" Content="Browse" Width="100" Style="{DynamicResource NXButtonStyle}" Click="Param_FolderBrowse_Click"/>
                 </StackPanel>
-                <StackPanel x:Name="Folder_VTYPE_Copy" Orientation="Horizontal">
+                <StackPanel x:Name="Folder_VTYPE_Bool" Orientation="Horizontal" IsEnabled="False" Visibility="Collapsed">
                     <ComboBox x:Name="ParamValue_ComboBox" ItemTemplate="{DynamicResource NXComboBoxItemTemplate}" Style="{DynamicResource NXComboBoxStyle}" Width="297" Height="24" BorderBrush="#FF01688C" Background="White" Template="{DynamicResource ComboBoxTemplate}" SelectionChanged="ParamValue_ComboBox_SelectionChanged">
-                        <ComboBoxItem Content="True" IsSelected="True"/>
-                        <ComboBoxItem Content="False"/>
+                        <ComboBoxItem Content="FALSE" IsSelected="True"/>
+                        <ComboBoxItem Content="TRUE"/>
                     </ComboBox>
                 </StackPanel>
             </StackPanel>
@@ -50,7 +50,7 @@
         </StackPanel>
         <StackPanel>
             <Label Content="Parameters" FontSize="16" Margin="10,10,10,0"/>
-            <ListBox Height="413" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,10" SelectionChanged="ListBox_SelectionChanged"/>
+            <ListBox x:Name="ParametersList" Height="413" d:ItemsSource="{Binding}" Margin="10,10,10,10" SelectionChanged="ListBox_SelectionChanged" ItemTemplate="{DynamicResource NewParamsListItemTemplate}"/>
         </StackPanel>
 
     </Grid>

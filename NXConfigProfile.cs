@@ -22,8 +22,13 @@ namespace NXLauncher
             Instance = this;
         }
 
-        public void LoadParams(string key)
+        public NXParams? LoadParams(NXInstallation installation)
         {
+            if (installation == null)
+                return null;
+
+            string key = installation.DisplayName + "_" + installation.DisplayVersion;
+
             NXParams parameters;
             try
             {
@@ -32,17 +37,19 @@ namespace NXLauncher
             {
                 //no key for config, create new entry.
                 parameters = new NXParams();
-                NXParameters.Add(key, parameters);
+                //NXParameters.Add(key, parameters);
                 
             }
-            NXConfigProfiles profile = GetConfigurationProfiles(key);
 
-            SaveProfiles();
+            parameters.LoadParameters(installation);
+
+            return parameters;
+
         }
         public void AddProfile(string key)
         {
             NXConfigProfiles profile = GetConfigurationProfiles(key);
-            profile.configProfiles.Add(new NXConfigProfile("Profile_" + profile.configProfiles.Count + 1));
+            profile.configProfiles.Add(new NXConfigProfile("Profile_" + profile.configProfiles.Count + 1, key));
             SaveProfiles();
         }
 
@@ -111,8 +118,9 @@ namespace NXLauncher
             Generated = true;
             ENVFile = "";
             Icon = "";
+            Key = "";
         }
-        public NXConfigProfile(string n)
+        public NXConfigProfile(string n, string k="")
         {
             Name = n;
             File = "";
@@ -120,6 +128,7 @@ namespace NXLauncher
             Generated = true;
             ENVFile = "";
             Icon = "";
+            Key = k;
         }
         public string Name { get; set; }
         public string File { get; set; }
@@ -127,6 +136,7 @@ namespace NXLauncher
         public bool Generated { get; set; }
         public string ENVFile { get; set; }
         public string Icon { get; set; }
+        public string Key { get; set; }
         public List<NXParam> paramList = new List<NXParam>();
     }
 
@@ -134,6 +144,33 @@ namespace NXLauncher
     public class NXParams
     {
         public List<NXParam> Params = new List<NXParam>();
+
+        public void LoadParameters(NXInstallation installation)
+        {
+            if (installation == null)
+                return;
+
+            if(Directory.Exists(installation.Directory))
+            {
+                Params.Clear();
+                string[] configData = File.ReadAllLines(installation.Directory+ "UGII\\ugii_env_ug.dat");
+                foreach (var p in configData)
+                {
+                    if (p.Length > 0)
+                    {
+                        if (!p.Contains("#"))
+                        {
+                            string[] pdata = p.Split("=",StringSplitOptions.TrimEntries);
+                            if (pdata.Length > 1)
+                            {
+                                NXParam param = new NXParam(pdata[0], pdata[1]);
+                                Params.Add(param);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     [System.Serializable]

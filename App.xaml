@@ -361,5 +361,21 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="NewParamsListItemTemplate">
+            <Grid Height="30" Width="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Left" Height="24" Margin="2,2,2,2" Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Top" Width="250">
+                    <Label x:Name="NX_Name" Background="{x:Null}" Content="{Binding Name}" Foreground="Black" HorizontalContentAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="200"/>
+                    
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </Application.Resources>
 </Application>

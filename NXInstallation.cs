@@ -12,17 +12,38 @@ namespace NXLauncher
     [System.Serializable]
     public class NXInstallation
     {
+        public NXInstallation()
+        {
+            DisplayName = "NA";
+            DisplayIcon = "";
+            DisplayVersion = "0";
+            Directory = "";
+            parameters = new NXParams();
+        }
+
+        public NXInstallation(string n, string i, string v, string d)
+        {
+            DisplayName=n;
+            DisplayIcon=i;
+            DisplayVersion = v;
+            Directory = d;
+            parameters = new NXParams();
+            parameters.LoadParameters(this);
+        }
+
         public string DisplayName { get; set; }
         public string DisplayIcon { get; set; }
         public string DisplayVersion { get; set; }
         public string Directory { get; set; }
+
+        public NXParams parameters { get; set; }
     }
 
     [System.Serializable]
     public class NXInstallatationManager
     {
 
-        public static NXInstallatationManager Instance { get; private set; }
+        public static NXInstallatationManager? Instance { get; private set; }
         public List<NXInstallation> Installs { get; set; }
         public NXInstallatationManager()
         {
@@ -49,13 +70,18 @@ namespace NXLauncher
                             if (subkey.GetValue("DisplayName").ToString().Contains("Siemens NX") && !subkey.GetValue("DisplayName").ToString().Contains("Launcher"))
                             {
 
-                                NXInstallation nx = new NXInstallation();
+                                
 
                                 //List<string> nameKeys = subkey.GetValueNames().ToList();
-                                nx.DisplayName = subkey.GetValue("DisplayName") != null ? subkey.GetValue("DisplayName").ToString() : "NA";
-                                nx.DisplayVersion = subkey.GetValue("DisplayVersion") != null ? subkey.GetValue("DisplayVersion").ToString() : "NA";
-                                nx.DisplayIcon = subkey.GetValue("DisplayIcon") != null ? subkey.GetValue("DisplayIcon").ToString() : "NA";
-                                nx.Directory = subkey.GetValue("DisplayName") != null ? subkey.GetValue("InstallLocation").ToString() : "NA";
+                                string DisplayName = subkey.GetValue("DisplayName") != null ? subkey.GetValue("DisplayName").ToString() : "NA";
+                                string DisplayVersion = subkey.GetValue("DisplayVersion") != null ? subkey.GetValue("DisplayVersion").ToString() : "NA";
+                                string DisplayIcon = subkey.GetValue("DisplayIcon") != null ? subkey.GetValue("DisplayIcon").ToString() : "NA";
+                                string Directory = subkey.GetValue("DisplayName") != null ? subkey.GetValue("InstallLocation").ToString() : "NA";
+
+
+                                NXInstallation nx = new NXInstallation(DisplayName, DisplayIcon, DisplayVersion, Directory);
+                                //NXConfigProfileManager.Instance.LoadParams(nx);
+
                                 Installs.Add(nx);
                             }
                         }

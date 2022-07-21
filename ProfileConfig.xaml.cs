@@ -19,22 +19,29 @@ namespace NXLauncher
     /// </summary>
     public partial class ProfileConfig : Window
     {
+        NXInstallation? installation;
+        NXParamsWindow? nXParamsWindow = null;
         NXConfigProfile? editingProfile = null;
         public ProfileConfig()
         {
             InitializeComponent();
+            editingProfile = new NXConfigProfile();
+            installation = new NXInstallation();
         }
 
-        public ProfileConfig(NXConfigProfile profile)
-        {
-            editingProfile = profile;
+        public ProfileConfig(NXConfigProfile profile, NXInstallation i)
+        {            
             InitializeComponent();
+            editingProfile = profile;
+            installation = i;
+            SetData();
         }
 
         public void SetData()
         {
             if (editingProfile == null)
                 return;
+
             ProfileName_TextBox.Text = editingProfile.Name;
             if(editingProfile.Generated)
             {
@@ -98,6 +105,14 @@ namespace NXLauncher
 
         private void AddParam_Button_Click(object sender, RoutedEventArgs e)
         {
+            if(nXParamsWindow!=null)
+            { 
+                nXParamsWindow.Close();
+                nXParamsWindow = null;
+            }
+
+            nXParamsWindow = new NXParamsWindow(editingProfile, installation);
+            nXParamsWindow.Show();
 
         }
 

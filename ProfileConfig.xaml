@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NXLauncher"
         mc:Ignorable="d"
-        Title="NX Profile Config" Height="640" Width="800" ResizeMode="NoResize" Icon="/resources/ug_logo_50x50.tif" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+        Title="NX Profile Config" Height="655" Width="800" ResizeMode="NoResize" Icon="/resources/ug_logo_50x50.tif" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Window.Effect>
         <DropShadowEffect/>
     </Window.Effect>
@@ -14,7 +14,7 @@
             <RowDefinition Height="97*"/>
             <RowDefinition Height="512*"/>
         </Grid.RowDefinitions>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF454545"/>
+        <Rectangle Fill="#FF454545" Margin="0,0,0,532" Grid.RowSpan="2"/>
 
         <Label Content="NX Profile Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" FontSize="18" Width="204" Foreground="White"/>
 
