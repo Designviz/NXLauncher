@@ -18,19 +18,15 @@ namespace NXLauncher
     /// Interaction logic for NXParamsWindow.xaml
     /// </summary>
     /// 
-    public enum ParamVType
-    {
-        VVALUE,
-        VFILE,
-        VFOLDER,
-        VBOOLEAN,
-    }
+
     public partial class NXParamsWindow : Window
     {
         NXInstallation? installation;
         NXConfigProfile? editingProfile = null;
         NXParam? selectedParam = null;
+        int index = -1;
         bool isInit = false;
+        bool isEditing = false;
         ParamVType vtype = ParamVType.VVALUE;
         public NXParamsWindow()
         {
@@ -38,6 +34,15 @@ namespace NXLauncher
             installation = new NXInstallation();
             isInit = true;
             editingProfile = new NXConfigProfile();
+            Initialized += NXParamsWindow_Initialized;
+
+        }
+
+
+
+        private void NXParamsWindow_Initialized(object? sender, EventArgs e)
+        {
+
         }
 
         public NXParamsWindow(NXConfigProfile p, NXInstallation i)
@@ -47,6 +52,68 @@ namespace NXLauncher
             ParametersList.ItemsSource = i.parameters.Params;
             editingProfile = p;
             isInit = true;
+            Initialized += NXParamsWindow_Initialized;
+        }
+
+        public NXParamsWindow(NXConfigProfile p, NXInstallation i, NXParam pm)
+        {
+            InitializeComponent();
+            installation = i;
+            ParametersList.ItemsSource = i.parameters.Params;           
+            editingProfile = p;
+            isInit = true;
+            if (pm != null)
+            {
+                
+                ParametersList.SelectedItem = i.parameters.Params.Find(pa => pa.Name.Equals(pm.Name));
+                vtype = pm.VType;
+                isEditing = true;
+                index = editingProfile.paramList.IndexOf(pm);
+                selectedParam = pm;
+            }
+
+            SourceInitialized += NXParamsWindow_SourceInitialized;
+        }
+
+        private void NXParamsWindow_SourceInitialized(object? sender, EventArgs e)
+        {
+            if (selectedParam == null)
+                return;
+            Add_Button.Content = "Update";
+            ParamName_Box.Text = selectedParam.Name;
+            ParamValue_TextBox.Text = selectedParam.Value;
+            ParamValue_FolderBox.Text = selectedParam.Value;
+            ParamValue_FileBox.Text = selectedParam.Value;
+            switch (vtype)
+            {
+                case ParamVType.VVALUE:
+                    ParamValue_Radio_Checked(null, null);
+                    break;
+                case ParamVType.VFOLDER:
+                    ParamFolder_Radio_Checked(null, null);
+                    break;
+                case ParamVType.VFILE:
+                    ParamFile_Radio_Checked(null, null);
+                    break;
+                case ParamVType.VBOOLEAN:
+                    ParamBool_Radio_Checked(null, null);
+                    bool result = false;
+                    bool.TryParse(selectedParam.Value, out result);
+                    if (result)
+                    {
+                        ParamValue_ComboBox.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        ParamValue_ComboBox.SelectedIndex = 1;
+                    }
+                    break;
+            }
+        }
+
+        private void NXParamsWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+ 
         }
 
         private void ParamValue_Radio_Checked(object sender, RoutedEventArgs e)
@@ -141,7 +208,7 @@ namespace NXLauncher
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         private void Add_Button_Click(object sender, RoutedEventArgs e)
@@ -165,8 +232,15 @@ namespace NXLauncher
                     value = ParamValue_ComboBox.SelectedIndex == 0 ? "FALSE" : "TRUE";
                     break;
             }
+            if (!isEditing)
+            {
+                editingProfile.paramList.Add(new NXParam(selectedParam.Name, value));
+                
+            } else
+            {
 
-            editingProfile.paramList.Add(new NXParam(selectedParam.Name, value));
+                editingProfile.paramList[index] = new NXParam(selectedParam.Name, value);    
+            }           
             Close();
         }
 

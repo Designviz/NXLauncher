@@ -180,14 +180,24 @@ namespace NXLauncher
         {
             Name = "UGII_NULL";
             Value = "";
-
+            VType = ParamVType.VVALUE;
         }
         public NXParam(string n, string v)
         {
             Name = n;
             Value = v;
+            VType = ParamVType.VVALUE;
         }
         public string Name { get; set; }
         public string Value { get; set; }
+        public ParamVType VType { get; set; }
+    }
+    [System.Serializable]
+    public enum ParamVType
+    {
+        VVALUE,
+        VFILE,
+        VFOLDER,
+        VBOOLEAN,
     }
 }

@@ -22,11 +22,14 @@ namespace NXLauncher
         NXInstallation? installation;
         NXParamsWindow? nXParamsWindow = null;
         NXConfigProfile? editingProfile = null;
+        NXParam? selectedParam = null;
+        bool isInitialized = false;
         public ProfileConfig()
         {
             InitializeComponent();
             editingProfile = new NXConfigProfile();
             installation = new NXInstallation();
+            isInitialized = true;
         }
 
         public ProfileConfig(NXConfigProfile profile, NXInstallation i)
@@ -35,6 +38,7 @@ namespace NXLauncher
             editingProfile = profile;
             installation = i;
             SetData();
+            isInitialized = true;
         }
 
         public void SetData()
@@ -65,11 +69,18 @@ namespace NXLauncher
 
         private void Generated_Radio_Checked(object sender, RoutedEventArgs e)
         {
-
+            if (!isInitialized)
+                return;
+            UGIIENVFile_Panel.IsEnabled = false;
+            EnvironmentFolder_Panel.IsEnabled = true;
         }
 
         private void UseExisting_Radio_Checked(object sender, RoutedEventArgs e)
         {
+            if (!isInitialized)
+                return;
+            UGIIENVFile_Panel.IsEnabled = true;
+            EnvironmentFolder_Panel.IsEnabled = false;
 
         }
 
@@ -85,7 +96,15 @@ namespace NXLauncher
 
         private void EnvironmentFolderBrowse_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if(result == System.Windows.Forms.DialogResult.OK)
+                {
+                    editingProfile.ENVFile = dialog.SelectedPath;
+                    EnvironmentFolder_TextBox.Text = dialog.SelectedPath;
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -100,6 +119,15 @@ namespace NXLauncher
 
         private void NXParams_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            selectedParam = (NXParam)NXParams_List.SelectedItem;
+            if (selectedParam != null)
+            {
+                EditParam_Button.IsEnabled = true;
+            } else
+            {
+                EditParam_Button.IsEnabled = false;
+            }
+
 
         }
 
@@ -112,6 +140,7 @@ namespace NXLauncher
             }
 
             nXParamsWindow = new NXParamsWindow(editingProfile, installation);
+            nXParamsWindow.Closing += NXParamsWindow_Closing;
             nXParamsWindow.Show();
 
         }
@@ -137,6 +166,26 @@ namespace NXLauncher
             if (editingProfile == null)
                 return;
             editingProfile.Name = ProfileName_TextBox.Text;
+        }
+
+        private void EditParam_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (nXParamsWindow != null)
+            {
+                nXParamsWindow.Close();
+                nXParamsWindow = null;
+            }
+
+            nXParamsWindow = new NXParamsWindow(editingProfile, installation,selectedParam);
+            nXParamsWindow.Closing += NXParamsWindow_Closing;
+            nXParamsWindow.Show();
+        }
+
+        private void NXParamsWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            NXParams_List.UnselectAll();
+            NXParams_List.Items.Refresh();
+            nXParamsWindow.Closing -= NXParamsWindow_Closing;
         }
     }
 }

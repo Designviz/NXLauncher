@@ -28,8 +28,8 @@
             <Label Content="Parameter Value" Foreground="White" FontSize="14"/>
             <StackPanel x:Name="V_Types" Margin="10,5,10,5" Height="100">
                 <TextBox x:Name="ParamValue_TextBox" TextWrapping="Wrap" Height="24" FontSize="14" TextChanged="ParamValue_TextBox_TextChanged"/>
-                <StackPanel x:Name="File_VTYPE" Orientation="Horizontal" Visibility="Visible" IsEnabled="False">
-                    <TextBox x:Name="ParamValue_FileBox" TextWrapping="Wrap" Height="24" FontSize="14" Width="193" Margin="0,0,5,0" TextChanged="ParamValue_FileBox_TextChanged" Visibility="Collapsed"/>
+                <StackPanel x:Name="File_VTYPE" Orientation="Horizontal" Visibility="Collapsed" IsEnabled="False">
+                    <TextBox x:Name="ParamValue_FileBox" TextWrapping="Wrap" Height="24" FontSize="14" Width="193" Margin="0,0,5,0" TextChanged="ParamValue_FileBox_TextChanged" Visibility="Visible"/>
                     <Button x:Name="ParamFile_Browse" Content="Browse" Width="100" Style="{DynamicResource NXButtonStyle}" Click="ParamFile_Browse_Click"/>
                 </StackPanel>
                 <StackPanel x:Name="Folder_VTYPE" Orientation="Horizontal" IsEnabled="False" Visibility="Collapsed">
