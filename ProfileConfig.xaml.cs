@@ -52,7 +52,7 @@ namespace NXLauncher
                 Generated_Radio.IsChecked = true;
                 UGIIENVFile_Panel.IsEnabled = false;
                 EnvironmentFolder_Panel.IsEnabled = true;
-                EnvironmentFolder_Utilities.IsEnabled = true;
+                //EnvironmentFolder_Utilities.IsEnabled = true;
                 GenerateEnvParams_Panel.IsEnabled = true;
 
             } else
@@ -60,7 +60,7 @@ namespace NXLauncher
                 UseExisting_Radio.IsChecked = true;
                 UGIIENVFile_Panel.IsEnabled = true;
                 EnvironmentFolder_Panel.IsEnabled = false;
-                EnvironmentFolder_Utilities.IsEnabled = false;
+                //EnvironmentFolder_Utilities.IsEnabled = false;
                 GenerateEnvParams_Panel.IsEnabled = false;
             }
             UGIIENVPath_TextBox.Text = editingProfile.File;
