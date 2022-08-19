@@ -265,5 +265,26 @@ namespace NXLauncher
             }
 
         }
+
+        private void SearchParams_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (installation == null)
+                return;
+
+            if (SearchParams != null)
+            {
+                if (SearchParams.Text.Length > 0)
+                {
+                    ParametersList.ItemsSource = installation.parameters.Params.FindAll(pp => pp.Name.Contains(SearchParams.Text.ToUpper())); // i.parameters.Params;
+                    ParametersList.UnselectAll();
+                    ParametersList.Items.Refresh();
+                } else
+                {
+                    ParametersList.ItemsSource = installation.parameters.Params;
+                    ParametersList.UnselectAll();
+                    ParametersList.Items.Refresh();
+                }
+            }
+        }
     }
 }

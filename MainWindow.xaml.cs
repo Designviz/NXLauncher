@@ -159,6 +159,106 @@ namespace NXLauncher
 
         private void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
+            if (selectedInstallation != null)
+            {
+                if (isDefaultLaunch)
+                {
+                    //set env var for ugii_env back to default
+
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\ugraf.exe");
+                    startInfo.Arguments = "-nx";
+
+                    System.Environment.SetEnvironmentVariable("UGII_ENV_FILE", selectedInstallation.Directory + "\\UGII\\ugii_env.dat");
+                    System.Environment.SetEnvironmentVariable("UGII_BASE_DIR", selectedInstallation.Directory);
+
+
+                    //startInfo.EnvironmentVariables.Add("UGII_ENV_FILE", selectedInstallation.Directory + "\\UGII\\ugii_env.dat");
+                    //startInfo.EnvironmentVariables.Add("UGII_BASE_DIR", selectedInstallation.Directory);
+
+
+                    System.Diagnostics.Process? nxProcess = System.Diagnostics.Process.Start(startInfo);
+                    if(nxProcess == null)
+                    {
+                        System.Windows.Forms.MessageBox.Show("NX Launcher", "NX Failed to Launch\nCheck if NX is installed correctly.");
+                    }
+                }
+                else
+                {
+                    
+                    LaunchProfile();
+
+
+                }
+            }
+
+        }
+
+        private void LaunchProfile()
+        {
+            if (selectedInstallation == null)
+                return;
+
+            if (selectedProfile == null)
+            {
+                System.Windows.Forms.MessageBox.Show("NX Launcher", "Profile is missing.");
+                return;
+            }
+
+            System.Diagnostics.ProcessStartInfo? startInfo = null;
+            switch (selectedProfile.Application)
+            {
+                case NXApplication.NX:
+                    startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\ugraf.exe");
+                    startInfo.WorkingDirectory = selectedInstallation.Directory + "\\UGII\\";
+                    startInfo.Arguments = "-nx";
+                    break;
+                case NXApplication.MECHANTRONICS:
+                    startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\ugraf.exe");
+                    startInfo.WorkingDirectory = selectedInstallation.Directory + "\\UGII\\";
+                    startInfo.Arguments = "-mechatronics";
+                    break;
+                case NXApplication.NXCAM:
+                    startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\ugraf.exe");
+                    startInfo.WorkingDirectory = selectedInstallation.Directory + "\\MACH\\\auxiliary\\nxcam\\";
+                    startInfo.Arguments = "-nxcam";
+                    break;
+                case NXApplication.NXLAYOUT:
+                    startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\ugraf.exe");
+                    startInfo.WorkingDirectory = selectedInstallation.Directory + "\\UGII\\";
+                    startInfo.Arguments = "-nxlayout";
+                    break;
+                case NXApplication.NXPROMPT:
+                    startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\nxcommand.bat");
+                    startInfo.WorkingDirectory = selectedInstallation.Directory + "\\UGII\\";
+                    break;
+                case NXApplication.NXVIEWER:
+                    startInfo = new System.Diagnostics.ProcessStartInfo(selectedInstallation.Directory + "\\UGII\\ugraf.exe");
+                    startInfo.WorkingDirectory = selectedInstallation.Directory + "\\UGII\\";
+                    startInfo.Arguments = "-view";
+                    break;
+            }
+
+            if (startInfo == null)
+                return;
+
+            if (selectedProfile.Generated)
+            {
+                selectedProfile.GenerateEnvFile();
+                System.Environment.SetEnvironmentVariable("UGII_ENV_FILE", selectedProfile.ENVFile + "\\ugii_env.dat");
+                //startInfo.EnvironmentVariables.Add("UGII_ENV_FILE", selectedProfile.ENVFile + "\\ugii_env.dat");               
+            } else
+            {
+                System.Environment.SetEnvironmentVariable("UGII_ENV_FILE", selectedProfile.File);
+                //startInfo.EnvironmentVariables.Add("UGII_ENV_FILE", selectedProfile.File);
+            }
+            
+            System.Environment.SetEnvironmentVariable("UGII_BASE_DIR", selectedInstallation.Directory);
+            //startInfo.EnvironmentVariables.Add("UGII_BASE_DIR", selectedInstallation.Directory);
+            System.Diagnostics.Process? nxProcess = System.Diagnostics.Process.Start(startInfo);
+            if (nxProcess == null)
+            {
+                System.Windows.Forms.MessageBox.Show("NX Launcher", "NX Failed to Launch\nCheck if NX is installed correctly.");
+            }
 
         }
     }

@@ -119,6 +119,7 @@ namespace NXLauncher
             ENVFile = "";
             Icon = "";
             Key = "";
+            Application = NXApplication.NX;
         }
         public NXConfigProfile(string n, string k="")
         {
@@ -129,6 +130,7 @@ namespace NXLauncher
             ENVFile = "";
             Icon = "";
             Key = k;
+            Application = NXApplication.NX;
         }
         public string Name { get; set; }
         public string File { get; set; }
@@ -137,7 +139,31 @@ namespace NXLauncher
         public string ENVFile { get; set; }
         public string Icon { get; set; }
         public string Key { get; set; }
+
+        public NXApplication Application { get; set; }
+
         public List<NXParam> paramList = new List<NXParam>();
+
+        public void GenerateEnvFile()
+        {
+            string ugData = "";
+            foreach (var p in paramList)
+            {
+                switch(p.VType)
+                {
+                    case ParamVType.VFOLDER:
+                    case ParamVType.VFILE:
+                        ugData += p.Name + " = \"" + p.Value +"\"\n";
+                        break;
+                    default:
+                        ugData += p.Name + " = " + p.Value+ "\n";
+                        break;
+                }
+                
+            }
+            System.IO.File.WriteAllText(ENVFile+"\\ugii_env.dat", ugData);
+        }
+
     }
 
     [System.Serializable]
@@ -192,6 +218,20 @@ namespace NXLauncher
         public string Value { get; set; }
         public ParamVType VType { get; set; }
     }
+
+
+    [System.Serializable]
+    public enum NXApplication
+    {
+        NX = 0,
+        NXCAM = 1,
+        NXVIEWER = 2,
+        NXLAYOUT = 3,
+        MECHANTRONICS = 4,
+        NXPROMPT = 5
+
+    }
+
     [System.Serializable]
     public enum ParamVType
     {

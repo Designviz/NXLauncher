@@ -63,6 +63,9 @@ namespace NXLauncher
                 EnvironmentFolder_Utilities.IsEnabled = false;
                 GenerateEnvParams_Panel.IsEnabled = false;
             }
+            UGIIENVPath_TextBox.Text = editingProfile.File;
+            EnvironmentFolder_TextBox.Text = editingProfile.ENVFile;
+
             NXParams_List.ItemsSource = editingProfile.paramList;
         }
 
@@ -73,6 +76,8 @@ namespace NXLauncher
                 return;
             UGIIENVFile_Panel.IsEnabled = false;
             EnvironmentFolder_Panel.IsEnabled = true;
+            GenerateEnvParams_Panel.IsEnabled = true;
+            editingProfile.Generated = true;
         }
 
         private void UseExisting_Radio_Checked(object sender, RoutedEventArgs e)
@@ -81,7 +86,8 @@ namespace NXLauncher
                 return;
             UGIIENVFile_Panel.IsEnabled = true;
             EnvironmentFolder_Panel.IsEnabled = false;
-
+            GenerateEnvParams_Panel.IsEnabled=false;
+            editingProfile.Generated = false;
         }
 
         private void UGIIENVPath_TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -91,7 +97,23 @@ namespace NXLauncher
 
         private void UGIIENVBrowse_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (installation == null)
+                return;
 
+            using (System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = installation.Directory+"\\UGII";
+                openFileDialog.Filter = "dat files (*.dat)|*.dat|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = false;
+
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    UGIIENVPath_TextBox.Text = openFileDialog.FileName;
+                    editingProfile.File = openFileDialog.FileName;
+                }
+            }
         }
 
         private void EnvironmentFolderBrowse_Button_Click(object sender, RoutedEventArgs e)
@@ -147,7 +169,14 @@ namespace NXLauncher
 
         private void RemoveParam_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (selectedParam == null)
+                return;
+            if (editingProfile == null)
+                return;
 
+            editingProfile.paramList.Remove(selectedParam);
+            NXParams_List.UnselectAll();
+            NXParams_List.Items.Refresh();
         }
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
@@ -185,7 +214,16 @@ namespace NXLauncher
         {
             NXParams_List.UnselectAll();
             NXParams_List.Items.Refresh();
-            nXParamsWindow.Closing -= NXParamsWindow_Closing;
+            if(nXParamsWindow!=null)
+                nXParamsWindow.Closing -= NXParamsWindow_Closing;
+        }
+
+        private void NXAppSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (editingProfile == null)
+                return;
+
+            editingProfile.Application = (NXApplication)NXAppSelect.SelectedIndex;
         }
     }
 }

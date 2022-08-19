@@ -55,7 +55,7 @@
                     <Label Content="Existing ugii__env.dat Location" FontSize="14"/>
                     <StackPanel x:Name="ExistingFile_Panel" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
                         <TextBlock Style="{DynamicResource NXLabelStyle}" TextWrapping="Wrap" Text="Path:" Width="60" Margin="10,10,5,10" Height="24"/>
-                        <TextBox x:Name="UGIIENVPath_TextBox" TextWrapping="Wrap" Text=".." Width="200" Margin="5,10,5,10" VerticalContentAlignment="Top" TextChanged="UGIIENVPath_TextBox_TextChanged"/>
+                        <TextBox x:Name="UGIIENVPath_TextBox" TextWrapping="NoWrap" Text=".." Width="200" Margin="5,10,5,10" VerticalContentAlignment="Top" TextChanged="UGIIENVPath_TextBox_TextChanged"/>
                         <Button x:Name="UGIIENVBrowse_Button" Content="Browse" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="UGIIENVBrowse_Button_Click"/>
                     </StackPanel>
                 </StackPanel>
@@ -63,19 +63,22 @@
                     <Label Content="Custom Environment Folder" FontSize="14"/>
                     <StackPanel x:Name="ExistingFile_Panel1" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
                         <TextBlock TextWrapping="Wrap" Text="Path:" Width="60" Margin="10,10,5,10" Height="24"/>
-                        <TextBox x:Name="EnvironmentFolder_TextBox" TextWrapping="Wrap" Text=".." Width="200" Margin="5,10,5,10" VerticalContentAlignment="Top"/>
+                        <TextBox x:Name="EnvironmentFolder_TextBox" TextWrapping="NoWrap" Text=".." Width="200" Margin="5,10,5,10" VerticalContentAlignment="Top"/>
                         <Button x:Name="EnvironmentFolderBrowse_Button" Content="Browse" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="EnvironmentFolderBrowse_Button_Click"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel x:Name="EnvironmentFolder_Utilities" Margin="10,5,10,5" Visibility="Hidden">
-                    <Label Content="Environment Folder Utilities" FontSize="14"/>
+                <StackPanel x:Name="EnvironmentFolder_Utilities" Margin="10,5,10,5" Visibility="Visible" Background="WhiteSmoke">
+                    <Label Content="NX Launch Options&#xD;&#xA;" FontSize="14"/>
                     <StackPanel x:Name="ExistingFile_Panel2" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
-                        <TextBlock TextWrapping="Wrap" Text="Copy Default Libraries:" Margin="10,10,75,10" Height="24" Width="200"/>
-                        <Button Content="Do It!" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="Button_Click"/>
-                    </StackPanel>
-                    <StackPanel x:Name="ExistingFile_Panel2_Copy" Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
-                        <TextBlock TextWrapping="Wrap" Text="Create Default Folders:" Margin="10,10,75,10" Height="24" Width="200"/>
-                        <Button Content="Do It!" Style="{DynamicResource NXButtonStyle}" HorizontalAlignment="Right" Foreground="White" Background="#FF01698D" BorderBrush="{x:Null}" Width="120" Margin="5,5,5,5" Click="Button_Click_1"/>
+                        <TextBlock TextWrapping="Wrap" Text="Application" Margin="10,10,0,10" Height="24" Width="200"/>
+                        <ComboBox x:Name="NXAppSelect" Style="{DynamicResource NXComboBoxStyle}" VerticalAlignment="Center" Width="200" SelectionChanged="NXAppSelect_SelectionChanged">
+                            <ComboBoxItem Content="NX" IsSelected="True" />
+                            <ComboBoxItem Content="NX CAM"/>
+                            <ComboBoxItem Content="NX Viewer"/>
+                            <ComboBoxItem Content="NX Layout"/>
+                            <ComboBoxItem Content="Mechatronics"/>
+                            <ComboBoxItem Content="NX Command Prompt"/>
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

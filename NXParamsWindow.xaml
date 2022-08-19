@@ -50,7 +50,9 @@
         </StackPanel>
         <StackPanel>
             <Label Content="Parameters" FontSize="16" Margin="10,10,10,0"/>
-            <ListBox x:Name="ParametersList" Height="413" d:ItemsSource="{Binding}" Margin="10,10,10,10" SelectionChanged="ListBox_SelectionChanged" ItemTemplate="{DynamicResource NewParamsListItemTemplate}"/>
+            <Label Content="Filter" Margin="10,5,10,0"/>
+            <TextBox x:Name="SearchParams" TextWrapping="Wrap" Height="24" Margin="10,0,10,5" TextChanged="SearchParams_TextChanged"/>
+            <ListBox x:Name="ParametersList" Height="377" d:ItemsSource="{Binding}" Margin="10,10,10,10" SelectionChanged="ListBox_SelectionChanged" ItemTemplate="{DynamicResource NewParamsListItemTemplate}"/>
         </StackPanel>
 
     </Grid>
