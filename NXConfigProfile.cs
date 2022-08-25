@@ -171,10 +171,45 @@ namespace NXLauncher
     {
         public List<NXParam> Params = new List<NXParam>();
 
+
+        public void SaveParameters(NXInstallation installation)
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            Directory.CreateDirectory(path + "\\DesignVisionaries\\NXLauncher\\data");
+            string data = JsonConvert.SerializeObject(this);
+            File.WriteAllText(path + "\\DesignVisionaries\\NXLauncher\\data\\"+ installation.DisplayVersion + "_Params.json", data);
+
+        }
+
+
+        public bool LoadParameters(string file)
+        {
+            if (file == "")
+                return false;
+            string data = File.ReadAllText(file);
+            NXParams? pm = JsonConvert.DeserializeObject<NXParams>(data);
+            if(pm!=null)
+            {
+                Params = pm.Params;
+                return true;
+            }
+
+            return false;
+        }
+
         public void LoadParameters(NXInstallation installation)
         {
             if (installation == null)
                 return;
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            Directory.CreateDirectory(path + "\\DesignVisionaries\\NXLauncher\\data");
+
+            if (File.Exists(path + "\\DesignVisionaries\\NXLauncher\\data\\" + installation.DisplayVersion + "_Params.json"))
+            {
+                if (LoadParameters(path + "\\DesignVisionaries\\NXLauncher\\data\\" + installation.DisplayVersion + "_Params.json"))
+                    return;
+            }
 
             if(Directory.Exists(installation.Directory))
             {
@@ -190,11 +225,42 @@ namespace NXLauncher
                             if (pdata.Length > 1)
                             {
                                 NXParam param = new NXParam(pdata[0], pdata[1]);
-                                Params.Add(param);
+                                if(Params.Find(pp => pp.Name.Contains(param.Name)) ==null)
+                                    Params.Add(param);
+                            }
+                        } else
+                        {
+                            if (p.Contains("UGII_"))
+                            {
+                                int strt = p.IndexOf("UGII_");
+                                if (strt != -1)
+                                {
+                                    string newp = p.Substring(strt, p.Length - strt);
+                                    string[] pdata = newp.Split("=", StringSplitOptions.TrimEntries);
+                                    if (pdata.Length > 1)
+                                    {
+                                        NXParam param = new NXParam(pdata[0], pdata[1]);
+                                        if (Params.Find(pp => pp.Name.Contains(param.Name)) == null)
+                                            Params.Add(param);
+                                    }
+                                    else
+                                    {
+                                        newp = newp.Replace("/", " ");
+                                        newp = newp.Replace("\\", " ");
+                                        newp = newp.Replace(".", " ");
+                                        newp = newp.Replace(",", " ");
+                                        string[] pdatab = newp.Split(" ", StringSplitOptions.TrimEntries);
+                                        NXParam param = new NXParam(pdatab[0], "");
+                                        if (Params.Find(pp => pp.Name.Contains(param.Name)) == null)
+                                            Params.Add(param);
+
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                SaveParameters(installation);
             }
         }
     }

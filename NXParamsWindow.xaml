@@ -26,7 +26,7 @@
                 <RadioButton x:Name="ParamBool_Radio" Content="Boolean" Foreground="White" BorderBrush="#FF444444" GroupName="ParamType" Checked="ParamBool_Radio_Checked"/>
             </StackPanel>
             <Label Content="Parameter Value" Foreground="White" FontSize="14"/>
-            <StackPanel x:Name="V_Types" Margin="10,5,10,5" Height="100">
+            <StackPanel x:Name="V_Types" Margin="10,5,10,5">
                 <TextBox x:Name="ParamValue_TextBox" TextWrapping="Wrap" Height="24" FontSize="14" TextChanged="ParamValue_TextBox_TextChanged"/>
                 <StackPanel x:Name="File_VTYPE" Orientation="Horizontal" Visibility="Collapsed" IsEnabled="False">
                     <TextBox x:Name="ParamValue_FileBox" TextWrapping="Wrap" Height="24" FontSize="14" Width="193" Margin="0,0,5,0" TextChanged="ParamValue_FileBox_TextChanged" Visibility="Visible"/>
@@ -52,7 +52,7 @@
             <Label Content="Parameters" FontSize="16" Margin="10,10,10,0"/>
             <Label Content="Filter" Margin="10,5,10,0"/>
             <TextBox x:Name="SearchParams" TextWrapping="Wrap" Height="24" Margin="10,0,10,5" TextChanged="SearchParams_TextChanged"/>
-            <ListBox x:Name="ParametersList" Height="377" d:ItemsSource="{Binding}" Margin="10,10,10,10" SelectionChanged="ListBox_SelectionChanged" ItemTemplate="{DynamicResource NewParamsListItemTemplate}"/>
+            <ListBox x:Name="ParametersList" d:ItemsSource="{Binding}" Margin="10,10,10,10" SelectionChanged="ListBox_SelectionChanged" ItemTemplate="{DynamicResource NewParamsListItemTemplate}" MinHeight="280" Height="300"/>
         </StackPanel>
 
     </Grid>
